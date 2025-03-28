@@ -14,7 +14,7 @@
     const PX_PER_LY = 500;
     
     // Mode switch: we define the solar system as the region inside 40 AU.
-    const SOLAR_THRESHOLD_AU = 40;
+    const SOLAR_THRESHOLD_AU = 39.5001;
     
     /***** Marker Definitions *****/
     // Markers for the solar system (up to Pluto).
