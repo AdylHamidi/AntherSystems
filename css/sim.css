@@ -1,0 +1,137 @@
+
+        .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      z-index: 1000;
+    }
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .navbar nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    .navbar nav a:hover {
+      color: #007bff;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      margin: 20px;
+    }
+    #controls {
+      margin: 10px;
+      padding: 10px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 8px;
+      text-align: center;
+    }
+    #controls button, #controls select {
+      margin: 5px;
+      padding: 8px 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #controls button:hover, #controls select:hover {
+      background: #555;
+    }
+    #info {
+      margin-top: 10px;
+      font-size: 16px;
+      white-space: pre-wrap;
+    }
+    #simulation {
+      width: 90%;
+      height: 70vh;
+      border: 1px solid #444;
+      position: relative;
+      background: linear-gradient(to right, #111, #222);
+      overflow-x: auto;
+      white-space: nowrap;
+      margin-bottom: 20px;
+    }
+    #space {
+      position: relative;
+      height: 100%;
+    }
+    .light {
+      width: 12px;
+      height: 12px;
+      background: yellow;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      box-shadow: 0 0 10px yellow;
+    }
+    .trail {
+      position: absolute;
+      height: 4px;
+      background: rgba(255,255,0,0.5);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    /* Marker styling using images for celestial bodies */
+    .marker {
+      position: absolute;
+      top: 75%;
+      transform: translateX(-50%);
+      width: 80px; /* Increased size */
+      height: 80px; /* Increased size */
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .marker img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+    .marker-caption {
+      margin-top: 4px;
+      font-size: 14px;
+      color: #fff;
+    }
+    /* Tooltip styling */
+    .tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 5px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      display: none;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .marker:hover .tooltip {
+      display: block;
+    }
+  
