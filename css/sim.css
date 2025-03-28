@@ -138,9 +138,12 @@
 
     @media (max-width: 768px) {
       .navbar {
+        position: absolute; /* or 'static' if you want it to follow document flow */
+        top: 0;
         flex-direction: column;
         align-items: flex-start;
         padding: 20px;
+        background: rgba(0, 0, 0, 0.8); /* optional: to keep it visible when over video */
       }
     
       .navbar .logo {
@@ -160,22 +163,5 @@
         margin-bottom: 10px;
         font-size: 0.95rem;
       }
-    
-      .hero .content h1 {
-        font-size: 2.2rem;
-      }
-    
-      .hero .content p {
-        font-size: 1rem;
-      }
-    
-      .hero .content button {
-        padding: 12px 24px;
-        font-size: 0.9rem;
-      }
     }
-  
-    .hero video {
-      max-width: none;
-      max-height: none;
-    }
+    
