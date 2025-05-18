@@ -164,8 +164,9 @@
         <nav>
             <a href="./index.html">Home</a>
             <a href="./chatindex.html">Chat</a>
-            <a href="./login.html">Login</a>
-            <a href="./register.html">Register</a>
+            <a href="./login.html" id="login-link">Login</a>
+            <a href="./register.html" id="register-link">Register</a>
+            <a href="./profile.html" id="profile-link" style="display:none;">Profile</a>
         </nav>
     </header>
 
@@ -242,6 +243,14 @@
                 errorMessage.style.display = 'block';
             }
         });
+
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            document.getElementById('profile-link').style.display = token ? '' : 'none';
+            document.getElementById('login-link').style.display = token ? 'none' : '';
+            document.getElementById('register-link').style.display = token ? 'none' : '';
+        }
+        updateNavbar();
     </script>
 </body>
 </html> 
