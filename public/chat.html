@@ -3,20 +3,192 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Omegle Clone | Chat</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AntherSystems - RandCHAT</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+  <style>
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      z-index: 1000;
+    }
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .navbar nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    .navbar nav a:hover {
+      color: #007bff;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      padding-top: 80px;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-title {
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .btn-sidebar {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-sidebar:hover {
+      background: #0056b3;
+    }
+
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .input-area {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .btn-send {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-send:hover {
+      background: #0056b3;
+    }
+
+    .chat-message {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .my-message {
+      background: rgba(0, 123, 255, 0.2);
+      margin-left: 20%;
+    }
+
+    .partner-message {
+      background: rgba(255, 255, 255, 0.1);
+      margin-right: 20%;
+    }
+
+    .system-msg {
+      text-align: center;
+      color: #007bff;
+      margin: 10px 0;
+    }
+
+    .disconnect-msg {
+      text-align: center;
+      color: #ff4444;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .translation-info {
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    .original-message {
+      font-size: 0.9em;
+      color: #aaa;
+      margin-top: 5px;
+      padding: 5px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
+  <header class="navbar">
+    <div class="logo">AntherSystems</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/public/sim.html">Simulation</a>
+      <a href="/public/getstarted.html">Get Started</a>
+      <a href="/public/chatindex.html">RandCHAT</a>
+      <a href="/public/login.html">Login</a>
+    </nav>
+  </header>
 
+  <div class="container">
     <!-- Left Sidebar -->
     <nav class="sidebar">
-      <h2 class="sidebar-title">Omegle Clone</h2>
+      <h2 class="sidebar-title">RandCHAT</h2>
       <button class="btn-sidebar" id="newChatBtn">New Chat</button>
-      <!-- 
-        Future: you can list previous chats or session info here 
-        For now, it's just a placeholder.
-      -->
       <div class="session-history" id="sessionHistory"></div>
     </nav>
 
@@ -70,11 +242,37 @@
       displayPartnerInfo(data.partner);
     });
 
+    // Handle partner disconnect
+    socket.on('partner_disconnected', () => {
+      // Add disconnect message
+      const disconnectMsg = document.createElement('div');
+      disconnectMsg.className = 'disconnect-msg';
+      disconnectMsg.textContent = 'Your chat partner has left the chat.';
+      chatBox.appendChild(disconnectMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Update status
+      statusDiv.textContent = "Chat ended - Click 'New Chat' to find a new partner";
+      
+      // Hide message form
+      messageForm.style.display = "none";
+      
+      // Clear current room
+      currentRoom = null;
+    });
+
     // Display incoming messages
     socket.on('message', (data) => {
       // Only display the message if it's from the partner
       if (data.sender.gender !== profile.gender || data.sender.age !== profile.age) {
-        addChatMessage(data.sender, data.message);
+        addChatMessage(
+          data.sender, 
+          data.message, 
+          data.isOriginal, 
+          data.originalMessage,
+          data.fromLanguage,
+          data.toLanguage
+        );
       }
     });
 
@@ -94,14 +292,20 @@
 
     // "New Chat" button: refresh the page or navigate to index
     newChatBtn.addEventListener('click', () => {
-      // In a real app, you might tell the server you want a new partner
-      // For simplicity, let's just reload
-      window.location.href = 'index.html';
+      // Clear the chat box
+      chatBox.innerHTML = '';
+      // Reset the status
+      statusDiv.textContent = "Searching for a stranger...";
+      // Hide the message form
+      messageForm.style.display = "none";
+      // Clear the current room
+      currentRoom = null;
+      // Rejoin with the same profile
+      socket.emit('join', profile);
     });
 
     // Utility to display a partner's basic info at the top of the chat
     function displayPartnerInfo(partner) {
-      // For a simpler approach, add a little note to the chat
       const infoDiv = document.createElement('div');
       infoDiv.className = 'system-msg';
       infoDiv.textContent = `You are now chatting with ${partner.gender}, age ${partner.age} from ${partner.country}.`;
@@ -110,7 +314,7 @@
     }
 
     // Utility to add a message to the chat
-    function addChatMessage(sender, message) {
+    function addChatMessage(sender, message, isOriginal = true, originalMessage = null, fromLanguage = null, toLanguage = null) {
       const messageElem = document.createElement('div');
       messageElem.className = 'chat-message';
 
@@ -118,12 +322,24 @@
       const isMe = sender.gender === profile.gender && sender.age === profile.age;
       messageElem.classList.add(isMe ? 'my-message' : 'partner-message');
 
-      messageElem.innerHTML = `
+      let messageContent = `
         <div class="message-sender">
           ${isMe ? 'You' : `${sender.gender} (${sender.country})`}
         </div>
         <div class="message-text">${message}</div>
       `;
+
+      // Add translation info if it's a translated message
+      if (!isOriginal && originalMessage) {
+        messageContent += `
+          <div class="translation-info">
+            Translated from ${fromLanguage} to ${toLanguage}
+          </div>
+          <div class="original-message">${originalMessage}</div>
+        `;
+      }
+
+      messageElem.innerHTML = messageContent;
       chatBox.appendChild(messageElem);
       chatBox.scrollTop = chatBox.scrollHeight;
     }

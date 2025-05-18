@@ -13,6 +13,8 @@
       <a href="../index.html">Home</a>
       <a href="./sim.html">Simulation</a>
       <a href="./getstarted.html">Get Started</a>
+      <a href="./chatindex.html">RandCHAT</a>
+      <a href="./login.html">Login</a>
     </nav>
   </header>
   <div class="setup-container">
@@ -29,6 +31,24 @@
       <label for="age">Age</label>
       <input type="number" id="age" min="18" required>
 
+      <label for="language">Preferred Language</label>
+      <select id="language" required>
+        <option value="">Select Language</option>
+        <option value="EN-US">English (US)</option>
+        <option value="EN-GB">English (UK)</option>
+        <option value="ES">Spanish</option>
+        <option value="FR">French</option>
+        <option value="DE">German</option>
+        <option value="IT">Italian</option>
+        <option value="PT-PT">Portuguese</option>
+        <option value="NL">Dutch</option>
+        <option value="PL">Polish</option>
+        <option value="RU">Russian</option>
+        <option value="JA">Japanese</option>
+        <option value="ZH">Chinese</option>
+        <option value="AR">Arabic</option>
+      </select>
+
       <button type="submit" class="btn">Start Chatting</button>
     </form>
   </div>
@@ -39,7 +59,8 @@
       e.preventDefault();
       const gender = document.getElementById('gender').value;
       const age = document.getElementById('age').value;
-      localStorage.setItem('profile', JSON.stringify({ gender, age }));
+      const language = document.getElementById('language').value;
+      localStorage.setItem('profile', JSON.stringify({ gender, age, language }));
       window.location.href = 'chat.html';
     });
   </script>

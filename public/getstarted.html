@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>xAeroDef</title>
+  <title>AntherSystems</title>
   <style>
     /* Reset */
     * {
@@ -44,7 +44,7 @@
       transition: color 0.3s ease;
     }
     .navbar nav a:hover {
-      color: #ff5722;
+      color: #007bff;
     }
     
     /* Hero Section */
@@ -94,6 +94,7 @@
     }
     .hero .content button:hover {
       background: #007bff;
+      color: white;
     }
     
     /* Sections */
@@ -134,19 +135,20 @@
 <body>
   <!-- Navbar -->
   <header class="navbar">
-    <div class="logo">xAeroDef</div>
+    <div class="logo">AntherSystems</div>
     <nav>
-      <a href="#mission">Mission</a>
-      <a href="sim.html">simulation</a>
-      <a href="getstarted.html">GetStarted</a>
+      <a href="/">Home</a>
+      <a href="/public/sim.html">Simulation</a>
+      <a href="/public/getstarted.html">Get Started</a>
+      <a href="/public/chatindex.html">RandCHAT</a>
+      <a href="/public/login.html">Login</a>
     </nav>
   </header>
   
   <!-- Hero Section with Video Background -->
   <section class="hero">
-    <!-- Replace 'background.mp4' with your video file -->
     <video autoplay muted loop>
-      <source src="main.mp4" type="video/mp4">
+      <source src="/public/content/main.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div class="content">
@@ -157,23 +159,19 @@
   </section>
   
   <!-- Mission Section (Parallax Background) -->
-  <section id="mission" class="section parallax" style="background-image: url('mission-bg.jpg');">
+  <section id="mission" class="section parallax" style="background-image: url('/public/content/mission-bg.jpg');">
     <h2>My Mission</h2>
     <p>
         Growing up, I was always captivated by space—the stars, the planets, the sheer
-         mystery of it all. But as I got older, I realized most people don’t truly grasp 
+         mystery of it all. But as I got older, I realized most people don't truly grasp 
          just how vast and incredible the universe really is. It made me sad to see how easily we 
-         overlook the scale of everything beyond Earth. That’s why I’m starting this journey—to 
-         educate, to spark curiosity, and to help others feel the same awe I’ve felt since I was a kid ~Adyl 🧑🏻‍🚀✨
+         overlook the scale of everything beyond Earth. That's why I'm starting this journey—to 
+         educate, to spark curiosity, and to help others feel the same awe I've felt since I was a kid ~Adyl 🧑🏻‍🚀✨
     </p>
-   
   </section>
   
-  <!-- Technology Section -->
-  
-  
   <!-- Contact Section (Parallax Background) -->
-  <section id="contact" class="section parallax" style="background-image: url('contact-bg.jpg');">
+  <section id="contact" class="section parallax" style="background-image: url('/public/content/contact-bg.jpg');">
     <h2>Get In Touch</h2>
     <p>
       Join us as we pioneer the next frontier. Reach out for collaborations, inquiries, or just to say hello.
@@ -182,11 +180,10 @@
   
   <!-- Footer -->
   <footer class="footer">
-    &copy; 2025 xAeroDef. All Rights Reserved.
+    &copy; 2025 AntherSystems. All Rights Reserved.
   </footer>
   
   <script>
-    // Smooth scrolling to section
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }

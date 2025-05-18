@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AntherSystems - Login</title>
+    <title>AntherSystems - Register</title>
     <link rel="stylesheet" href="/public/css/index.css">
     <style>
         body, html {
@@ -48,7 +48,7 @@
             color: #007bff;
         }
 
-        .login-container {
+        .register-container {
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
@@ -62,19 +62,19 @@
             top: -40px;
         }
 
-        .login-container h2 {
+        .register-container h2 {
             text-align: center;
             margin-bottom: 30px;
             font-size: 2rem;
         }
 
-        .login-form {
+        .register-form {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        .login-form input {
+        .register-form input {
             padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
@@ -84,12 +84,12 @@
             transition: border-color 0.3s;
         }
 
-        .login-form input:focus {
+        .register-form input:focus {
             outline: none;
             border-color: #007bff;
         }
 
-        .login-form button {
+        .register-form button {
             padding: 12px;
             background: #007bff;
             color: white;
@@ -101,7 +101,7 @@
             margin-top: 10px;
         }
 
-        .login-form button:hover {
+        .register-form button:hover {
             background: #0056b3;
         }
 
@@ -138,19 +138,19 @@
             80%, 100% { content: ''; }
         }
 
-        .register-link {
+        .login-link {
             text-align: center;
             margin-top: 20px;
             color: white;
         }
 
-        .register-link a {
+        .login-link a {
             color: #007bff;
             text-decoration: none;
             transition: color 0.3s;
         }
 
-        .register-link a:hover {
+        .login-link a:hover {
             color: #0056b3;
         }
     </style>
@@ -167,26 +167,38 @@
         </nav>
     </header>
 
-    <div class="login-container">
-        <h2>Login</h2>
-        <form class="login-form" id="loginForm">
+    <div class="register-container">
+        <h2>Register</h2>
+        <form class="register-form" id="registerForm">
+            <input type="text" id="username" placeholder="Username" required>
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <button type="submit">Register</button>
             <p class="error-message" id="errorMessage"></p>
-            <p class="success-message" id="successMessage">Login successful! Redirecting...</p>
-            <p class="loading" id="loading">Logging in</p>
+            <p class="success-message" id="successMessage">Registration successful! Redirecting to login...</p>
+            <p class="loading" id="loading">Registering</p>
         </form>
-        <p class="register-link">
-            Don't have an account? <a href="/public/register.html">Register here</a>
+        <p class="login-link">
+            Already have an account? <a href="/public/login.html">Login here</a>
         </p>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = 'Passwords do not match';
+                errorMessage.style.display = 'block';
+                return;
+            }
             
             // Show loading
             document.getElementById('loading').style.display = 'block';
@@ -194,12 +206,12 @@
             document.getElementById('successMessage').style.display = 'none';
             
             try {
-                const response = await fetch('/api/auth/login', {
+                const response = await fetch('/api/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ username, email, password })
                 });
                 
                 const data = await response.json();
@@ -209,18 +221,15 @@
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('successMessage').style.display = 'block';
                     
-                    // Store the token
-                    localStorage.setItem('token', data.token);
-                    
-                    // Wait 2 seconds then redirect
+                    // Wait 2 seconds then redirect to login
                     setTimeout(() => {
-                        window.location.href = '/';
+                        window.location.href = '/public/login.html';
                     }, 2000);
                 } else {
                     // Hide loading, show error
                     document.getElementById('loading').style.display = 'none';
                     const errorMessage = document.getElementById('errorMessage');
-                    errorMessage.textContent = data.message || 'Invalid credentials';
+                    errorMessage.textContent = data.message || 'Registration failed';
                     errorMessage.style.display = 'block';
                 }
             } catch (error) {
