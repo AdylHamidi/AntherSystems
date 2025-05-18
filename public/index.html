@@ -153,6 +153,9 @@
       .hero {
         height: 30vh;
         min-height: 120px;
+        background-image: url('./content/main-poster.jpg');
+        background-size: cover;
+        background-position: center;
       }
       .hero h1 {
         font-size: 1.3rem;
@@ -169,6 +172,7 @@
       .footer {
         font-size: 0.85rem;
       }
+      .hero video { display: none; }
     }
   </style>
 </head>
@@ -185,8 +189,8 @@
   </header>
   
   <section class="hero">
-    <video autoplay muted loop>
-      <source src="./content/main.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline poster="./content/main-poster.jpg">
+      <source src="./content/main-optimized.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div class="content">
