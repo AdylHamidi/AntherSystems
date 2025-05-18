@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - AntherSystems</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        body {
+            background: #181818;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: #111;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: 500;
+        }
+        .navbar a:last-child { margin-right: 0; }
+        .profile-container {
+            margin: 120px auto 0 auto;
+            max-width: 400px;
+            background: #222;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .profile-title {
+            font-size: 2rem;
+            margin-bottom: 24px;
+            font-weight: bold;
+        }
+        .profile-info {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 300px;
+        }
+        .profile-info label {
+            font-weight: 600;
+            color: #aaa;
+        }
+        .profile-info div {
+            margin-bottom: 18px;
+        }
+        .logout-btn {
+            margin-top: 24px;
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 32px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: #d32f2f;
+        }
+        .error-message {
+            color: #ff3b3b;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="./index.html">Home</a>
+            <a href="./chatindex.html">Chat</a>
+        </div>
+        <div>
+            <a href="./profile.html">Profile</a>
+            <a href="#" id="logout-link">Logout</a>
+        </div>
+    </div>
+    <div class="profile-container">
+        <div class="profile-title">Mon Profil</div>
+        <div class="profile-info" id="profile-info">
+            Chargement...
+        </div>
+        <button class="logout-btn" id="logout-btn">Se déconnecter</button>
+        <div class="error-message" id="error-message"></div>
+    </div>
+    <script>
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = './login.html';
+        }
+        document.getElementById('logout-btn').onclick = logout;
+        document.getElementById('logout-link').onclick = function(e) {
+            e.preventDefault();
+            logout();
+        };
+        async function fetchProfile() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = './login.html';
+                return;
+            }
+            try {
+                const res = await fetch('/api/auth/profile', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (!res.ok) {
+                    if (res.status === 401 || res.status === 403) {
+                        logout();
+                        return;
+                    }
+                    throw new Error('Erreur lors du chargement du profil.');
+                }
+                const data = await res.json();
+                document.getElementById('profile-info').innerHTML = `
+                    <div><label>Nom d'utilisateur :</label><br>${data.username}</div>
+                    <div><label>Email :</label><br>${data.email}</div>
+                    <div><label>Inscrit le :</label><br>${new Date(data.created_at).toLocaleString()}</div>
+                `;
+            } catch (err) {
+                document.getElementById('error-message').textContent = err.message;
+            }
+        }
+        fetchProfile();
+    </script>
+</body>
+</html> 

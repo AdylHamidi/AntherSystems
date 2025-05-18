@@ -31,6 +31,18 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Middleware to verify JWT
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ message: 'Invalid token' });
+        req.user = user;
+        next();
+    });
+}
+
 // Login endpoint
 app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
@@ -75,7 +87,7 @@ app.post('/api/auth/login', async (req, res) => {
     } catch (error) {
         console.error('Login Error:', error);
         res.status(500).json({ message: 'Server error', details: error.message });
-    }''
+    }
 });
 
 // Register endpoint
@@ -106,6 +118,23 @@ app.post('/api/auth/register', async (req, res) => {
         });
     } catch (error) {
         console.error('Registration Error:', error);
+        res.status(500).json({ message: 'Server error', details: error.message });
+    }
+});
+
+// Profile endpoint
+app.get('/api/auth/profile', authenticateToken, async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT id, username, email, created_at FROM users WHERE id = $1',
+            [req.user.id]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('Profile Error:', error);
         res.status(500).json({ message: 'Server error', details: error.message });
     }
 });
