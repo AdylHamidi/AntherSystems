@@ -13,8 +13,13 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Initialize DeepL translator
-const translator = new Translator(process.env.DEEPL_API_KEY);
+// Initialize DeepL translator only if API key is available
+let translator = null;
+if (process.env.DEEPL_API_KEY) {
+    translator = new Translator(process.env.DEEPL_API_KEY);
+} else {
+    console.warn('DeepL API key not found. Translation features will be disabled.');
+}
 
 app.use(express.json());
 
@@ -113,8 +118,8 @@ io.on('connection', (socket) => {
       // Get the original message
       const originalMessage = data.message;
 
-      // If languages are different, translate the message
-      if (senderSocket.profile.language !== receiverSocket.profile.language) {
+      // If languages are different and translator is available, translate the message
+      if (senderSocket.profile.language !== receiverSocket.profile.language && translator) {
         try {
           // Translate from sender's language to receiver's language
           const translation = await translator.translateText(
@@ -149,7 +154,7 @@ io.on('connection', (socket) => {
           });
         }
       } else {
-        // If languages are the same, send the original message to both
+        // If languages are the same or translator is not available, send the original message to both
         io.to(data.room).emit('message', {
           message: originalMessage,
           sender: senderSocket.profile,
@@ -157,8 +162,8 @@ io.on('connection', (socket) => {
         });
       }
     } catch (error) {
-      console.error('Translation error:', error);
-      // If translation fails, send the original message
+      console.error('Message handling error:', error);
+      // If any error occurs, send the original message
       io.to(data.room).emit('message', {
         message: data.message,
         sender: socket.profile,
