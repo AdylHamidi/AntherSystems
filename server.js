@@ -36,19 +36,23 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     
     try {
+        console.log('Login attempt for email:', email);
         const result = await pool.query(
             'SELECT * FROM users WHERE email = $1',
             [email]
         );
         
         if (result.rows.length === 0) {
+            console.log('No user found with email:', email);
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         
         const user = result.rows[0];
+        console.log('User found:', { id: user.id, email: user.email });
         
         // Temporarily check plain text password
         if (password !== user.password) {
+            console.log('Password mismatch for user:', email);
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         
@@ -58,10 +62,55 @@ app.post('/api/auth/login', async (req, res) => {
             { expiresIn: '24h' }
         );
         
+        console.log('Login successful for user:', email);
         res.json({ token });
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Login Error:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            code: error.code
+        });
+        res.status(500).json({ message: 'Server error', details: error.message });
+    }
+});
+
+// Register endpoint
+app.post('/api/auth/register', async (req, res) => {
+    const { username, email, password } = req.body;
+    
+    try {
+        console.log('Registration attempt for email:', email);
+        // Check if user already exists
+        const existingUser = await pool.query(
+            'SELECT * FROM users WHERE email = $1',
+            [email]
+        );
+        
+        if (existingUser.rows.length > 0) {
+            console.log('Email already registered:', email);
+            return res.status(400).json({ message: 'Email already registered' });
+        }
+        
+        // Insert new user
+        const result = await pool.query(
+            'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id',
+            [username, email, password]
+        );
+        
+        console.log('Registration successful for user:', email);
+        res.status(201).json({ 
+            message: 'Registration successful',
+            userId: result.rows[0].id
+        });
+    } catch (error) {
+        console.error('Registration Error:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            code: error.code
+        });
+        res.status(500).json({ message: 'Server error', details: error.message });
     }
 });
 
