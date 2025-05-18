@@ -3,11 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>AntherSystems - RandCHAT</title>
   <link rel="stylesheet" href="/public/css/style.css">
   <style>
-    body, html {
+    html, body {
       width: 100%;
       height: 100%;
       font-family: Arial, sans-serif;
@@ -16,19 +16,21 @@
       overflow-x: hidden;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
     
     /* Navbar */
     .navbar {
       position: fixed;
       top: 0;
-      width: 100%;
-      padding: 20px 40px;
+      width: 100vw;
+      padding: 20px 5vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: transparent;
+      background: rgba(0,0,0,0.8);
       z-index: 1000;
+      box-sizing: border-box;
     }
     .navbar .logo {
       font-size: 1.8rem;
@@ -37,7 +39,7 @@
     .navbar nav a {
       color: #fff;
       text-decoration: none;
-      margin-left: 25px;
+      margin-left: 5vw;
       font-size: 1rem;
       transition: color 0.3s ease;
     }
@@ -47,8 +49,10 @@
 
     .container {
       display: flex;
+      flex-direction: row;
       height: 100vh;
       padding-top: 80px;
+      box-sizing: border-box;
     }
 
     .sidebar {
@@ -56,6 +60,7 @@
       background: rgba(255, 255, 255, 0.1);
       padding: 20px;
       border-right: 1px solid rgba(255, 255, 255, 0.1);
+      display: block;
     }
 
     .sidebar-title {
@@ -82,6 +87,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .top-bar {
@@ -92,15 +98,23 @@
 
     .chat-box {
       flex: 1;
-      padding: 20px;
+      padding: 20px 10px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      min-height: 0;
+      max-height: calc(100vh - 240px);
+      box-sizing: border-box;
     }
 
     .input-area {
-      padding: 20px;
+      padding: 10px;
       background: rgba(255, 255, 255, 0.1);
       display: flex;
       gap: 10px;
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
+      box-sizing: border-box;
     }
 
     .input-area input {
@@ -110,6 +124,8 @@
       border-radius: 5px;
       background: rgba(255, 255, 255, 0.1);
       color: white;
+      font-size: 1rem;
+      min-width: 0;
     }
 
     .btn-send {
@@ -120,6 +136,7 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
+      font-size: 1rem;
     }
 
     .btn-send:hover {
@@ -130,6 +147,7 @@
       margin-bottom: 15px;
       padding: 10px;
       border-radius: 5px;
+      word-break: break-word;
     }
 
     .my-message {
@@ -169,6 +187,74 @@
       padding: 5px;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        padding-top: 60px;
+      }
+      .sidebar {
+        width: 100vw;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 10px 5vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .chat-area {
+        min-width: 0;
+      }
+    }
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 10px 2vw;
+      }
+      .navbar .logo {
+        font-size: 1.2rem;
+      }
+      .navbar nav a {
+        margin-left: 2vw;
+        font-size: 0.95rem;
+      }
+      .sidebar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 2vw;
+      }
+      .sidebar-title {
+        font-size: 1.1rem;
+      }
+      .btn-sidebar {
+        font-size: 0.95rem;
+        padding: 8px;
+      }
+      .chat-box {
+        padding: 10px 2vw;
+        max-height: calc(100vh - 180px);
+      }
+      .input-area {
+        padding: 8px 2vw;
+      }
+      .btn-send {
+        padding: 8px 12px;
+        font-size: 0.95rem;
+      }
+    }
+    /* Safari/iOS keyboard fix */
+    @supports (-webkit-touch-callout: none) {
+      .input-area {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+      }
+      .chat-box {
+        max-height: calc(100vh - 220px);
+      }
     }
   </style>
 </head>

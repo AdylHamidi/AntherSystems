@@ -3,8 +3,117 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Anthersystems - chat </title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .navbar {
+      width: 100vw;
+      padding: 20px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 5vw;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #007bff;
+    }
+    .setup-container {
+      margin: 120px auto 0 auto;
+      max-width: 400px;
+      background: #222;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .title {
+      font-size: 2rem;
+      margin-bottom: 24px;
+      font-weight: bold;
+    }
+    .profile-form label {
+      font-weight: 600;
+      color: #aaa;
+      display: block;
+      margin-bottom: 6px;
+      text-align: left;
+    }
+    .profile-form input, .profile-form select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      margin-bottom: 18px;
+      background: #333;
+      color: #fff;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 10px 2vw;
+      }
+      .logo {
+        font-size: 1.2rem;
+      }
+      nav a {
+        margin-left: 2vw;
+        font-size: 0.95rem;
+      }
+      .setup-container {
+        margin: 80px auto 0 auto;
+        padding: 16px 4vw;
+      }
+      .title {
+        font-size: 1.3rem;
+      }
+      .profile-form input, .profile-form select, .btn {
+        font-size: 0.98rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="navbar">

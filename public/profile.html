@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Profile - AntherSystems</title>
     <link rel="stylesheet" href="./css/style.css">
     <style>
@@ -17,7 +17,7 @@
             position: fixed;
             top: 0; left: 0; right: 0;
             background: #111;
-            padding: 20px 40px;
+            padding: 20px 5vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -27,7 +27,7 @@
         .navbar a {
             color: #fff;
             text-decoration: none;
-            margin-right: 20px;
+            margin-right: 5vw;
             font-weight: 500;
         }
         .navbar a:last-child { margin-right: 0; }
@@ -74,6 +74,29 @@
         .error-message {
             color: #ff3b3b;
             margin-top: 16px;
+        }
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px 2vw;
+            }
+            .navbar a {
+                margin-right: 2vw;
+                font-size: 0.95rem;
+            }
+            .profile-container {
+                margin: 80px auto 0 auto;
+                padding: 16px 4vw;
+            }
+            .profile-title {
+                font-size: 1.3rem;
+            }
+            .profile-info label, .profile-info div {
+                font-size: 0.98rem;
+            }
+            .logout-btn {
+                font-size: 0.98rem;
+                padding: 8px 20px;
+            }
         }
     </style>
 </head>

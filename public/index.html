@@ -3,9 +3,174 @@
   
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="./css/index.css">
   <title>AntherSystems</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .navbar {
+      width: 100vw;
+      padding: 20px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 5vw;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #007bff;
+    }
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 60vh;
+      min-height: 350px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 80px;
+    }
+    .hero video {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+      z-index: 1;
+    }
+    .hero .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #fff;
+      background: rgba(0,0,0,0.4);
+      padding: 2vw 4vw;
+      border-radius: 16px;
+      max-width: 90vw;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero button {
+      padding: 12px 32px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .hero button:hover {
+      background: #0056b3;
+    }
+    .section {
+      padding: 40px 5vw;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+    }
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .section p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .footer {
+      padding: 20px 5vw;
+      text-align: center;
+      background: #111;
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 900px) {
+      .navbar {
+        padding: 10px 2vw;
+      }
+      .logo {
+        font-size: 1.2rem;
+      }
+      nav a {
+        margin-left: 2vw;
+        font-size: 0.95rem;
+      }
+      .hero {
+        height: 40vh;
+        min-height: 200px;
+      }
+      .hero .content {
+        padding: 4vw 2vw;
+      }
+      .section {
+        padding: 30px 2vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 2vw;
+      }
+      .logo {
+        font-size: 1rem;
+      }
+      nav a {
+        margin-left: 1vw;
+        font-size: 0.9rem;
+      }
+      .hero {
+        height: 30vh;
+        min-height: 120px;
+      }
+      .hero h1 {
+        font-size: 1.3rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .section h2 {
+        font-size: 1.2rem;
+      }
+      .section p {
+        font-size: 0.98rem;
+      }
+      .footer {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="navbar">
