@@ -140,8 +140,12 @@ app.get('/api/auth/profile', authenticateToken, async (req, res) => {
 });
 
 const waitingUsers = [];
+let activeUsers = 0;
 
 io.on('connection', (socket) => {
+  activeUsers++;
+  io.emit('activeUsers', activeUsers); // Optional: emit to all clients
+
   const ip = socket.handshake.address;
   const geo = geoip.lookup(ip);
   socket.userCountry = geo ? geo.country : 'Unknown';
@@ -247,6 +251,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
+    activeUsers = Math.max(0, activeUsers - 1);
+    io.emit('activeUsers', activeUsers); // Optional: emit to all clients
     const index = waitingUsers.indexOf(socket);
     if (index !== -1) {
       waitingUsers.splice(index, 1);
@@ -266,6 +272,11 @@ io.on('connection', (socket) => {
       });
     }
   });
+});
+
+// Endpoint to get active users count
+app.get('/api/active-users', (req, res) => {
+  res.json({ activeUsers });
 });
 
 const PORT = process.env.PORT || 3000;

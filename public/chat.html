@@ -269,6 +269,9 @@
       <a href="./profile.html" id="profile-link" style="display:none;">Profile</a>
     </nav>
   </header>
+  <div id="active-users-bar" style="width:100vw;text-align:center;padding:8px 0 0 0;position:fixed;top:56px;left:0;z-index:999;background:transparent;font-size:1.1rem;">
+    <span style="color:#fff;">Active Users: <span id="active-users-count" style="color:#2196f3;">...</span></span>
+  </div>
 
   <div class="container">
     <!-- Left Sidebar -->
@@ -437,6 +440,19 @@
       document.getElementById('register-link').style.display = token ? 'none' : '';
     }
     updateNavbar();
+
+    // Active Users Polling
+    async function updateActiveUsers() {
+      try {
+        const res = await fetch('/api/active-users');
+        const data = await res.json();
+        document.getElementById('active-users-count').textContent = data.activeUsers;
+      } catch (e) {
+        document.getElementById('active-users-count').textContent = '?';
+      }
+    }
+    updateActiveUsers();
+    setInterval(updateActiveUsers, 10000);
   </script>
 </body>
 </html>
