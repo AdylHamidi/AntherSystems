@@ -126,7 +126,7 @@ app.post('/api/auth/register', async (req, res) => {
 app.get('/api/auth/profile', authenticateToken, async (req, res) => {
     try {
         const result = await pool.query(
-            'SELECT id, username, email, created_at FROM users WHERE id = $1',
+            'SELECT id, name AS username, email, created_at FROM users WHERE id = $1',
             [req.user.id]
         );
         if (result.rows.length === 0) {
