@@ -72,7 +72,10 @@
 
     // Display incoming messages
     socket.on('message', (data) => {
-      addChatMessage(data.sender, data.message);
+      // Only display the message if it's from the partner
+      if (data.sender.gender !== profile.gender || data.sender.age !== profile.age) {
+        addChatMessage(data.sender, data.message);
+      }
     });
 
     // On form submit, send message
@@ -80,9 +83,12 @@
       e.preventDefault();
       const msg = messageInput.value;
       if (!msg.trim()) return;
-      socket.emit('message', { room: currentRoom, message: msg });
-      // Optionally show your own message in the UI
+      
+      // Show your message immediately
       addChatMessage(profile, msg);
+      
+      // Send to server
+      socket.emit('message', { room: currentRoom, message: msg });
       messageInput.value = '';
     });
 
