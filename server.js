@@ -24,11 +24,11 @@ if (process.env.DEEPL_API_KEY) {
 app.use(express.json());
 
 // Serve static files from public directory
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve the main index.html file for the root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Login endpoint
