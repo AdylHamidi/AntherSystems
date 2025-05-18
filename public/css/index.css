@@ -1,0 +1,124 @@
+ /* Reset */
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body, html {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+  }
+  
+  /* Navbar */
+  .navbar {
+    
+    top: 0;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    z-index: 1000;
+  }
+  .navbar .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  .navbar nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  .navbar nav a:hover {
+    color: #007bff;
+  }
+  
+  /* Hero Section */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .hero video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    filter: brightness(0.5);
+  }
+  .hero .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 20px;
+  }
+  .hero .content h1 {
+    font-size: 3.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .hero .content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  .hero .content button {
+    padding: 15px 30px;
+    font-size: 1rem;
+    background: #ffffff;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .hero .content button:hover {
+    background: #007bff;
+  }
+  
+  /* Sections */
+  .section {
+    padding: 80px 20px;
+    text-align: center;
+  }
+  .section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  .section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Parallax Background Sections */
+  .parallax {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+  .section.bg-dark {
+    background: #111;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 20px;
+    text-align: center;
+    background: #000;
+    font-size: 0.9rem;
+  }

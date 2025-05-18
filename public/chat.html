@@ -1,0 +1,126 @@
+<!-- public/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Omegle Clone | Chat</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Left Sidebar -->
+    <nav class="sidebar">
+      <h2 class="sidebar-title">Omegle Clone</h2>
+      <button class="btn-sidebar" id="newChatBtn">New Chat</button>
+      <!-- 
+        Future: you can list previous chats or session info here 
+        For now, it's just a placeholder.
+      -->
+      <div class="session-history" id="sessionHistory"></div>
+    </nav>
+
+    <!-- Main Chat Area -->
+    <main class="chat-area">
+      <!-- Status / Info Bar -->
+      <div class="top-bar">
+        <div id="status">Searching for a stranger...</div>
+      </div>
+
+      <!-- Chat Messages -->
+      <div id="chatBox" class="chat-box"></div>
+
+      <!-- Message Input Form (hidden until matched) -->
+      <form id="messageForm" class="input-area" style="display: none;">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Type your message..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit" class="btn-send">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <!-- Socket.io -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    const socket = io();
+    const profile = JSON.parse(localStorage.getItem('profile')) || {};
+    let currentRoom = null;
+
+    // UI Elements
+    const statusDiv = document.getElementById('status');
+    const chatBox = document.getElementById('chatBox');
+    const messageForm = document.getElementById('messageForm');
+    const messageInput = document.getElementById('messageInput');
+    const newChatBtn = document.getElementById('newChatBtn');
+
+    // Join the server with the stored profile
+    socket.emit('join', profile);
+
+    // Handle match event
+    socket.on('matched', (data) => {
+      currentRoom = data.room;
+      statusDiv.textContent = "Stranger found!";
+      messageForm.style.display = "flex"; // Show the input form
+      displayPartnerInfo(data.partner);
+    });
+
+    // Display incoming messages
+    socket.on('message', (data) => {
+      addChatMessage(data.sender, data.message);
+    });
+
+    // On form submit, send message
+    messageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = messageInput.value;
+      if (!msg.trim()) return;
+      socket.emit('message', { room: currentRoom, message: msg });
+      // Optionally show your own message in the UI
+      addChatMessage(profile, msg);
+      messageInput.value = '';
+    });
+
+    // "New Chat" button: refresh the page or navigate to index
+    newChatBtn.addEventListener('click', () => {
+      // In a real app, you might tell the server you want a new partner
+      // For simplicity, let's just reload
+      window.location.href = 'index.html';
+    });
+
+    // Utility to display a partner's basic info at the top of the chat
+    function displayPartnerInfo(partner) {
+      // For a simpler approach, add a little note to the chat
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'system-msg';
+      infoDiv.textContent = `You are now chatting with ${partner.gender}, age ${partner.age} from ${partner.country}.`;
+      chatBox.appendChild(infoDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Utility to add a message to the chat
+    function addChatMessage(sender, message) {
+      const messageElem = document.createElement('div');
+      messageElem.className = 'chat-message';
+
+      // If the sender is you, style differently
+      const isMe = sender.gender === profile.gender && sender.age === profile.age;
+      messageElem.classList.add(isMe ? 'my-message' : 'partner-message');
+
+      messageElem.innerHTML = `
+        <div class="message-sender">
+          ${isMe ? 'You' : `${sender.gender} (${sender.country})`}
+        </div>
+        <div class="message-text">${message}</div>
+      `;
+      chatBox.appendChild(messageElem);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>

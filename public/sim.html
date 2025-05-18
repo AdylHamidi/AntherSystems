@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/sim.css">
+ 
+  <title>Light-Speed Simulation</title>
+  
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">xAeroDef</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="sim.html">Simulation</a>
+      <a href="getstarted.html">Get Started</a>
+    </nav>
+  </header>
+  <p> </p>
+  <p> </p>
+
+
+  <h1>Light-Speed Simulation</h1>
+  <div id="controls">
+    <!-- Speed selector (in light-years per second) -->
+    <label for="speedSelect">Speed:</label>
+    <select id="speedSelect">
+      <option value="0.0000000317" selected>Light speed</option>
+      <option value="0.000000317">10x LightSpeed</option>
+      <option value="0.00000317">100x LightSpeed</option>
+      <option value="0.01">0.01 ly/s</option>
+      <option value="0.1">0.1 ly/s</option>
+      <option value="1">1 ly/s</option>
+      <option value="10">10 ly/s</option>
+    </select>
+    <!-- Control buttons -->
+    <button id="startBtn">Start</button>
+    <button id="pauseBtn">Pause</button>
+    <button id="resetBtn">Reset</button>
+    <button id="nextBtn">Get to Next</button>
+    <!-- Info display: elapsed time, km, AU, ly, and next body info -->
+    <div id="info">
+      Time: 0 s | Distance: 0 km | 0 AU | 0 ly
+      Next: N/A
+    </div>
+  </div>
+  <div id="simulation">
+    <div id="space">
+      <div id="trail" class="trail"></div>
+      <div id="light" class="light"></div>
+    </div>
+  </div>
+
+  <script src="js/sim.js"></script>
+</body>
+</html>
