@@ -172,6 +172,20 @@ Adyl Hamidi
 
 Visit [AntherSystems](https://anthersystems.com) to see the project in action.
 
+## 🛡️ Security Measures
+
+This project follows several best practices to ensure the security of user data and the application:
+
+- **Environment Variables:** All sensitive information (database credentials, JWT secret, API keys) is stored in environment variables and never committed to source control.
+- **JWT Authentication:** User sessions are managed using JSON Web Tokens (JWT) signed with a strong, random secret.
+- **Database Access Control:**  
+  - The PostgreSQL database is hosted on AWS RDS.
+  - The database security group is configured to allow inbound connections **only** from Render's static outbound IP addresses, preventing unauthorized access from the public internet.
+- **No Plaintext Passwords in Code:** Passwords are never hardcoded in the codebase.
+- **HTTPS by Default:** The deployed app uses HTTPS, ensuring encrypted communication between users and the server.
+- **.env in .gitignore:** The `.env` file is included in `.gitignore` to prevent accidental exposure of secrets.
+- **Error Logging:** Detailed error logging is implemented on the server to aid debugging without exposing sensitive information to users.
+
 ---
 
 Made with ❤️ for space exploration enthusiasts 
