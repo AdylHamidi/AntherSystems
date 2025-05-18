@@ -15,29 +15,57 @@
   
   /* Navbar */
   .navbar {
-    
+    position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: transparent;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(10px);
+  
     z-index: 1000;
+    transition: background 0.3s ease;
   }
+
+  .navbar:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
   .navbar .logo {
     font-size: 1.8rem;
     font-weight: bold;
+    color: #fff;
   }
+
   .navbar nav a {
     color: #fff;
     text-decoration: none;
     margin-left: 25px;
     font-size: 1rem;
     transition: color 0.3s ease;
+    position: relative;
   }
+
   .navbar nav a:hover {
     color: #007bff;
+  }
+
+  .navbar nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #007bff;
+    transition: width 0.3s ease;
+  }
+
+  .navbar nav a:hover::after {
+    width: 100%;
   }
   
   /* Hero Section */
