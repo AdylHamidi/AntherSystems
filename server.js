@@ -37,6 +37,10 @@ app.post('/api/auth/login', async (req, res) => {
     
     try {
         console.log('Login attempt for email:', email);
+        if (!email || !password) {
+            console.log('Missing email or password');
+            return res.status(400).json({ message: 'Email and password are required.' });
+        }
         const result = await pool.query(
             'SELECT * FROM users WHERE email = $1',
             [email]
@@ -50,10 +54,14 @@ app.post('/api/auth/login', async (req, res) => {
         const user = result.rows[0];
         console.log('User found:', { id: user.id, email: user.email });
         
-        // Temporarily check plain text password
         if (password !== user.password) {
             console.log('Password mismatch for user:', email);
             return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        
+        if (!process.env.JWT_SECRET) {
+            console.error('JWT_SECRET is not set');
+            return res.status(500).json({ message: 'Server configuration error: JWT secret missing.' });
         }
         
         const token = jwt.sign(
@@ -66,11 +74,6 @@ app.post('/api/auth/login', async (req, res) => {
         res.json({ token });
     } catch (error) {
         console.error('Login Error:', error);
-        console.error('Error details:', {
-            message: error.message,
-            stack: error.stack,
-            code: error.code
-        });
         res.status(500).json({ message: 'Server error', details: error.message });
     }
 });
@@ -81,7 +84,6 @@ app.post('/api/auth/register', async (req, res) => {
     
     try {
         console.log('Registration attempt for email:', email);
-        // Check if user already exists
         const existingUser = await pool.query(
             'SELECT * FROM users WHERE email = $1',
             [email]
@@ -92,7 +94,6 @@ app.post('/api/auth/register', async (req, res) => {
             return res.status(400).json({ message: 'Email already registered' });
         }
         
-        // Insert new user
         const result = await pool.query(
             'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id',
             [username, email, password]
@@ -105,11 +106,6 @@ app.post('/api/auth/register', async (req, res) => {
         });
     } catch (error) {
         console.error('Registration Error:', error);
-        console.error('Error details:', {
-            message: error.message,
-            stack: error.stack,
-            code: error.code
-        });
         res.status(500).json({ message: 'Server error', details: error.message });
     }
 });
